@@ -44,11 +44,11 @@ mp_face_mesh = mp.solutions.face_mesh
 face_mesh = mp_face_mesh.FaceMesh(static_image_mode=False, max_num_faces=1, min_detection_confidence=0.5)
 
 all_indices = list(range(145, 159)) + list(range(372, 386)) + list(range(1, 244)) + list(range(61, 291))
-list_oval = [61, 146, 146, 91, 91, 181, 181, 84, 84, 17, 17, 314, 314, 405, 405, 321,
-321, 375, 375, 291, 61, 185, 185, 40, 40, 39, 39, 37, 37, 0, 0, 267, 267,
-269, 269, 270, 270, 409, 409, 291, 78, 95, 95, 88, 88, 178, 178, 87, 87, 14,
-14, 317, 317, 402, 402, 318, 318, 324, 324, 308, 78, 191, 191, 80, 80, 81,
-81, 82, 82, 13, 13, 312, 312, 311, 311, 310, 310, 415, 415, 308]
+list_oval = [33, 7, 7, 163, 163, 144, 144, 145, 145, 153, 153, 154, 154, 155, 155, 133,
+33, 246, 246, 161, 161, 160, 160, 159, 159, 158, 158, 157, 157, 173, 173,
+133,263, 249, 249, 390, 390, 373, 373, 374, 374, 380, 380, 381, 381, 382, 382,
+362, 263, 466, 466, 388, 388, 387, 387, 386, 386, 385, 385, 384, 384, 398,
+398, 362]
 
 def get_landmark(file_path):
     global face_mesh
@@ -73,7 +73,7 @@ def get_landmark(file_path):
 
 landmark1 = get_landmark('im0.bmp')
 print(len(landmark1))
-landmark2 = get_landmark('im3.bmp')
+landmark2 = get_landmark('im1.bmp')
 
 def shift_landmark(landmark, shift_tmp):
     landmark_re = []
@@ -129,7 +129,7 @@ print(shift_best, best_value)
 landmarks1 = np.array(landmark1).astype(int)
 landmarks2 = np.array(landmark2).astype(int)
 
-image = cv2.imread(r'C:\Users\LAMHN\Documents\DoAn_KiSu\im3.bmp')
+image = cv2.imread(r'C:\Users\LAMHN\Documents\DoAn_KiSu\im0.bmp')
 
 for landmark in landmarks1:
     cv2.circle(image, tuple(landmark), 2, (0, 0, 255), -1)  # Đỏ

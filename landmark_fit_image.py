@@ -30,7 +30,7 @@ def bmp_equalization(image):
 # Đọc ảnh gốc và ảnh dịch chuyển
 func_balance = bmp_equalization
 
-small_image = func_balance(cv2.imread('im3.bmp'))[80:-80,80:-80,:]
+small_image = func_balance(cv2.imread('im0.bmp'))
 large_image = func_balance(cv2.imread('im3.bmp'))
 
 
@@ -49,6 +49,11 @@ keypoints_small, descriptors_small = sift.detectAndCompute(small_gray, None)
 bf = cv2.BFMatcher(cv2.NORM_L2, crossCheck=True)
 matches = bf.match(descriptors_small, descriptors_large)
 
+matched_keypoints_small = [keypoints_small[match.queryIdx].pt for match in matches]
+matched_keypoints_large = [keypoints_large[match.trainIdx].pt for match in matches]
+
+print(matched_keypoints_small[:10])
+print(matched_keypoints_large[:10])
 
 matched_image = cv2.drawMatches(small_image, keypoints_small, large_image, keypoints_large, matches, None, flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
 
