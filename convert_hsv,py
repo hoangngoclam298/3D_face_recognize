@@ -1,0 +1,29 @@
+import cv2
+
+import numpy as np
+
+# Đọc ảnh
+image = cv2.imread(r'Photoface_dist\PhotofaceDB\1001\2008-02-23_12-21-31\im1.bmp')
+
+def preprocess(image):
+    # Chuyển đổi sang không gian màu HSV
+    hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+    # Lấy các kênh màu
+    h, s, v = cv2.split(hsv_image)
+
+    # Đặt kênh v thành 1
+    v = np.ones_like(v) * 255
+
+    # Ghép lại các kênh màu để tạo ảnh mới
+    new_hsv_image = cv2.merge([h, s, v])
+
+    # Chuyển đổi lại sang không gian màu BGR
+    final_image = cv2.cvtColor(new_hsv_image, cv2.COLOR_HSV2BGR)
+    return final_image
+
+# Hiển thị ảnh gốc và ảnh đã chuyển đổi
+cv2.imshow('Original Image', image)
+cv2.imshow('Modified Image', final_image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
