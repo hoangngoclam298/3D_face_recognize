@@ -84,9 +84,58 @@ def pre_process(image):
 im0 = cv2.imread('im0.bmp')
 im3 = cv2.imread('im3.bmp')
 
-bbox = detect_faces(im0)
-# bbox = scale_bbox(bbox)
-x,y,w,h = bbox
+mp_face_mesh = mp.solutions.face_mesh
+face_mesh = mp_face_mesh.FaceMesh(static_image_mode=True, max_num_faces=1, min_detection_confidence=0.5)
+
+image = im0
+image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+landmark_points_68 = [168, 197, 5, 4, 75, 97, 2, 326, 305, 61, 39, 37, 0, 267, 269, 291, 405, 314, 17, 84, 181, 78, 82, 13, 312, 308, 317, 14, 87]
+
+# Nhận dạng các điểm chấm trên khuôn mặt
+bbox = [10000,0,10000,0]
+results = face_mesh.process(image_rgb)
+if results.multi_face_landmarks:
+    for face_landmarks in results.multi_face_landmarks:
+        # Vẽ các điểm chấm trên khuôn mặt
+        print(len(face_landmarks.landmark))
+        for index in range(len(face_landmarks.landmark)):
+            if index in landmark_points_68:
+                landmark = face_landmarks.landmark[index]
+                x = int(landmark.x * image.shape[1])
+                y = int(landmark.y * image.shape[0])
+                bbox[0] = min(x,bbox[0])
+                bbox[1] = max(x,bbox[1])
+                bbox[2] = min(y,bbox[2])
+                bbox[3] = max(y,bbox[3])
+
+def scale_bbox(bbox, scale_factor=1.2):
+    x1, y1, x2, y2 = bbox
+    w = x2 - x1
+    h = y2 - y1
+    
+    new_w = w * scale_factor
+    new_h = h * scale_factor
+    
+    center_x = (x1 + x2) / 2
+    center_y = (y1 + y2) / 2
+    
+    new_x1 = center_x - new_w / 2
+    new_y1 = center_y - new_h / 2
+    new_x2 = center_x + new_w / 2
+    new_y2 = center_y + new_h / 2
+    
+    return int(new_x1), int(new_x2), int(new_y1), int(new_y2)
+print(bbox)
+
+bbox = scale_bbox(bbox, 1)
+x1,x2,y1,y2 = tuple(bbox)
+x,y,w,h = x1,y1,x2-x1,y2-y1
+bbox = (x,y,w,h)
+# bbox = detect_faces(im0)
+# # bbox = scale_bbox(bbox)
+# x,y,w,h = bbox
+
 crop_im0 = im0[y:y+w,x:x+h,:]
 
 range_shift = 20 

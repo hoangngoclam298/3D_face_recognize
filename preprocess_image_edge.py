@@ -1,23 +1,23 @@
 import cv2
-import mediapipe as mp
+# import mediapipe as mp
 import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-def detect_faces(image):
-    mp_face_detection = mp.solutions.face_detection
-    image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    with mp_face_detection.FaceDetection(min_detection_confidence=0.7) as face_detection:
-        results = face_detection.process(image_rgb)
-        faces = []
-        if results.detections:
-            for detection in results.detections:
-                ih, iw, _ = image.shape
-                bboxC = detection.location_data.relative_bounding_box
-                bbox = int(bboxC.xmin * iw), int(bboxC.ymin * ih),\
-                       int(bboxC.width * iw), int(bboxC.height * ih)
-                faces.append(bbox)
-    return faces[0]
+# def detect_faces(image):
+#     mp_face_detection = mp.solutions.face_detection
+#     image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+#     with mp_face_detection.FaceDetection(min_detection_confidence=0.7) as face_detection:
+#         results = face_detection.process(image_rgb)
+#         faces = []
+#         if results.detections:
+#             for detection in results.detections:
+#                 ih, iw, _ = image.shape
+#                 bboxC = detection.location_data.relative_bounding_box
+#                 bbox = int(bboxC.xmin * iw), int(bboxC.ymin * ih),\
+#                        int(bboxC.width * iw), int(bboxC.height * ih)
+#                 faces.append(bbox)
+#     return faces[0]
 
 def merge_image(image1, image2):
     if image1.shape == image2.shape:
