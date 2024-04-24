@@ -1,4 +1,5 @@
 Photoface_dist/
 cropped_data/
 final_data/
-final_data.zip
+last_data/
+*.zip

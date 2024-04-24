@@ -17,7 +17,7 @@ class photometry:
         self.Z = []
 
     def runphotometry(self, input_array, mask=None):
-        print("Running main process. Be patient...")
+        # print("Running main process. Be patient...")
         if (mask is not None):
             self.mask = mask
             for id in range(0, self.IMAGES):
@@ -68,11 +68,11 @@ class photometry:
             cv.imshow('self.qgrads', self.qgrads)
             cv.waitKey(0)
             cv.destroyAllWindows()
-        print("Normal map computation end ")
+        # print("Normal map computation end ")
         return self.normalmap
 
     def computegaussian(self):
-        print("Computing gaussian curvature. Be patient...")
+        # print("Computing gaussian curvature. Be patient...")
 
         kernely = np.array([[-1, -2, -1], [ 0, 0, 0], [1, 2, 1]], dtype=np.float32)
         kernelx = np.array([[1, 0, -1], [ 2, 0, -2], [1, 0, -1]], dtype=np.float32)
@@ -88,7 +88,7 @@ class photometry:
 
         self.gaussgrad = ((Ixx * Iyy) - Ixy * Iyx) / np.power((1 + np.float_power(self.pgrads, 2) + np.float_power(self.qgrads, 2)), 2)
 
-        print("Gaussian curvature computation end.")
+        # print("Gaussian curvature computation end.")
         gaussgrad_norm = cv.normalize(self.gaussgrad, None, 0, 255, cv.NORM_MINMAX, cv.CV_8U)
         if self.display:
             cv.imshow('gaussgrad', gaussgrad_norm)
@@ -97,7 +97,7 @@ class photometry:
         return gaussgrad_norm
 
     def computemedian(self):
-        print("Computing median curvature. Be patient...")
+        # print("Computing median curvature. Be patient...")
 
         h = self.pgrads.shape[0]
         w = self.pgrads.shape[1]
@@ -117,7 +117,7 @@ class photometry:
         d = np.float_power(1 + np.float_power(self.pgrads, 2) + np.float_power(self.qgrads, 2), 3 / 2)
         self.meangrad = (a - b + c) / d
 
-        print("Median curvature computation end.")
+        # print("Median curvature computation end.")
         meangrad_norm = cv.normalize(self.meangrad, None, 0, 255, cv.NORM_MINMAX, cv.CV_8U)
         if self.display:
             cv.imshow('meangrad', meangrad_norm)
@@ -127,7 +127,7 @@ class photometry:
 
     def setlightmat(self, light_mat):
         self.light_mat = light_mat
-        print("Light matrix set")
+        # print("Light matrix set")
 
     def setlmfromts(self, tilt, slant):
         # todo: add check on tilt and slant size
@@ -139,11 +139,11 @@ class photometry:
             self.light_mat[id , 2] = np.cos(slant[id] / rads)
             norm = np.linalg.norm(self.light_mat[id])
             self.light_mat[id] = self.light_mat[id]/norm
-        print("Light matrix set from Tilt&Slant")
-        print(self.light_mat)
+        # print("Light matrix set from Tilt&Slant")
+        # print(self.light_mat)
 
     def settsfromlm(self):
-        print("TODO")
+        # print("TODO")
         rads = 180 / np.pi
         lightarr = np.asarray(self.light_mat).reshape(-1)
         tiltslant = np.zeros((self.IMAGES * 2), dtype=np.float32)
@@ -196,15 +196,15 @@ class photometry:
         return z_norm
 
     def computedepth2(self):
-        print("Experimental")
+        # print("Experimental")
         h = self.normalmap.shape[0]
         w = self.normalmap.shape[1]
         Z = np.zeros((h, w), dtype=np.float32)
         A = np.array([(1, -1, 0),(1, 0, -1)], dtype=np.float32)
         hh = 10
-        print(A)
+        # print(A)
         Apinv = np.linalg.pinv(A)
-        print(Apinv)
+        # print(Apinv)
         for i in range (0, h-1):
             for j in range (0, w-1):
                 arr = np.array([-self.pgrads[i,j],-self.qgrads[i,j]], dtype=np.float32)

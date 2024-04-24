@@ -1,5 +1,10 @@
+import re
+
 with open(r'Photoface_dist\PhotofaceDB\1001\2008-02-23_12-21-31\LightSource.m', 'r') as f:
     data = f.read()
-    info_light = data.split("[")[-1].split("]")[0].split(';')
-    print((info_light))
-
+    numbers = re.findall(r'\d+\.\d+|\d+', data)
+    new_data = ''
+    for number in numbers[1::2]:
+        new_data += number + ' '
+    with open('LightSource.txt', 'w') as f:
+        f.write(new_data[:-1])
