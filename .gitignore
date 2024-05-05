@@ -2,4 +2,6 @@ Photoface_dist/
 cropped_data/
 final_data/
 last_data/
+data_train_2d/
+data_train_3d/
 *.zip
