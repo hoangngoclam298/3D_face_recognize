@@ -73,7 +73,7 @@ def scale_bbox(bbox, scale_factor=1.2):
 
 scores = np.zeros((range_shift*2, range_shift*2))  # Tạo một ma trận để lưu kết quả
 
-path_folder = r'Photoface_dist\PhotofaceDB\1001\2008-02-23_12-21-31'
+path_folder = r'Photoface_dist\PhotofaceDB\1001\2008-03-01_10-39-28'
 
 list_name_image = [x for x in os.listdir(path_folder) if x.endswith(".bmp")]
 

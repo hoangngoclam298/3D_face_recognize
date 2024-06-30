@@ -12551,7 +12551,7 @@ def spilt_result(text):
         acc_valid.append(float(lines[3][64:70]))
     return loss_train, acc_train, loss_valid, acc_valid
 
-loss_train, acc_train, loss_valid, acc_valid = spilt_result(train_2d_aug)
+loss_train, acc_train, loss_valid, acc_valid = spilt_result(train_concat_all)
 
 data = {
     'Epoch': range(1, len(loss_train) + 1),
